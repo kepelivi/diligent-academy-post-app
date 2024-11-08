@@ -17,6 +17,20 @@ export default function Users() {
         queryKey: ['users']
     })
 
+    const createUserDeleteMutation = useMutation({
+        mutationFn: async (id: number) => {
+            fetch(`http://localhost:3000/users/${id}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['users']
+            })
+        }
+    })
+
     const createUserMutation = useMutation({
         mutationFn: async (newUser: User) => {
             fetch('http://localhost:3000/users', {
@@ -46,6 +60,10 @@ export default function Users() {
         })
     }
 
+    const handleDeleteUser = (id: number) => {
+        createUserDeleteMutation.mutate(id);
+    }
+
     if (isPending) return <h1>Loading...</h1>
 
     if (isError) {
@@ -62,6 +80,7 @@ export default function Users() {
                     <li key={user.id}>
                         <h2>{user.name}</h2>
                         <p>{user.email}</p>
+                        <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
                     </li>
                 ))}
             </ul>
