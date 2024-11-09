@@ -2,6 +2,7 @@ import Posts from "./components/Posts";
 import Home from "./components/Home";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Users from "./components/Users";
+import './styles/style.css';
 
 function App() {
 

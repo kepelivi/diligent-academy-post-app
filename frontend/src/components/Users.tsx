@@ -12,8 +12,6 @@ interface User {
 
 export default function Users() {
   const queryClient = useQueryClient();
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [isAddModalopen, setIsAddModalopen] = useState(false);
   const [openUpdateModalNr,setOpenUpdateModalNr] = useState<number|null>(null);
 
@@ -22,8 +20,6 @@ export default function Users() {
     isError,
     isPending,
     error,
-    isSuccess,
-    status,
   } = useQuery<User[]>({
     queryFn: async () =>
       fetch("http://localhost:3000/users").then((res) => res.json()),
@@ -87,12 +83,15 @@ export default function Users() {
 
 
  
-  const handleUpdateUser = (id: number) => {
+  const handleUpdateUser = (id: number,values:inputState) => {
+    const {name,email} = values;
+    if(typeof name === "string" && typeof email === 'string')
     updateUserMutation.mutate({
       id: id,
       name: name,
       email: email,
     });
+    setOpenUpdateModalNr(null);
   };
 
   const handleDeleteUser = (id: number) => {
@@ -103,7 +102,6 @@ export default function Users() {
   }
 
   const handleAddUser = (id:number, values:inputState) => {
-    console.log(`id: ${id}, values: ${JSON.stringify(values)}`);
     const {name,email} = values;
     if(typeof name === "string" && typeof email === 'string')
     {createUserMutation.mutate({
@@ -131,10 +129,10 @@ export default function Users() {
         <InputModal
         title={"Update user"}
         inputFields={[
-          { type: "text", value: "", label: "name" },
-          { type: "text", value: "", label: "email" },
+          { type: "text", value: user.name, label: "name" },
+          { type: "email", value: user.email, label: "email" },
         ]}
-        submitHandler={handleAddUser}
+        submitHandler={handleUpdateUser}
         cancelHandler={() => setOpenUpdateModalNr(null)}
         id={user.id}
       />

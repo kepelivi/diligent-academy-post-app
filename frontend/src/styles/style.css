@@ -1,0 +1,14 @@
+.userModal{
+    position:fixed;
+    top:50%;
+    left: 50%;
+    translate: -50% -50%;
+}
+.backdrop{
+    background-color: rgba(10, 10, 10, .3);
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}

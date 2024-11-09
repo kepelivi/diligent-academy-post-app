@@ -62,6 +62,7 @@ const InputModal: React.FC<InputModalProps> = ({
   });
 
   return (
+    <div className="backdrop">
     <dialog className="userModal" open>
       <h2>{title}</h2>
       {inputElements}
@@ -70,6 +71,7 @@ const InputModal: React.FC<InputModalProps> = ({
       </button>
       <button onClick={cancelHandler}>cancel</button>
     </dialog>
+    </div>
   );
 };
 
