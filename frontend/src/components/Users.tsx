@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import InputModal from "./InputModal";
 
 interface User {
     id: number;
@@ -11,6 +12,8 @@ export default function Users() {
     const queryClient = useQueryClient();
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [inputNeeded,setInputNeeded] = useState(false);
+    const [isInputUsedToUpdate,setIsInputUsedToUpdate] = useState(false);
 
 
     const { data: users, isError, isPending, error, isSuccess, status } = useQuery<User[]>({
@@ -18,7 +21,7 @@ export default function Users() {
         queryKey: ['users']
     })
 
-    function getHeigestPossibleID() : number{
+    function getHeighestPossibleID() : number{
         if(users !== undefined){
             return Math.max(...users.map(user=>user.id))
         }
@@ -83,6 +86,10 @@ export default function Users() {
             email: email,
         })
     }
+    const handleOpenUpdateUserModal = (id:number)=>{
+        setInputNeeded(true);
+        setIsInputUsedToUpdate(true);
+    }
     const handleUpdateUser =(id:number)=>{
         updateUserMutation.mutate({
             id: id,
@@ -102,10 +109,8 @@ export default function Users() {
     }
 
     return (
-        <>
-            <input type="text" placeholder="Name" name="name" onChange={(e) => setName(e.target.value)} />
-            <input type="text" placeholder="E-mail" name="email" onChange={(e) => setEmail(e.target.value)} />
-            <button onClick={handleCreateUser}>Create user</button>
+        <>  
+            {inputNeeded?<InputModal title={"Próba"} inputFields={[{type:"text",value:'',label:"próba"}]} submitHandler={()=>{console.log('handled')} } id={1}/> :null}
             <ul>
                 {users?.map(user => (
                     <li key={user.id}>
@@ -113,7 +118,7 @@ export default function Users() {
                         <p>{user.email}</p>
                         <p>User id: {user.id}</p>
                         <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
-                        <button onClick={()=>handleUpdateUser(user.id)}>Update</button>
+                        <button onClick={()=>handleOpenUpdateUserModal(user.id)}>Update</button>
                     </li>
                 ))}
             </ul>

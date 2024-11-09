@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import InputModal from "./InputModal";
 export default function Home() {
     return (
         <>
@@ -9,6 +9,7 @@ export default function Home() {
                 <li><Link to={'/posts'}>Posts</Link></li>
                 <li><Link to={'/users'}>Users</Link></li>
             </ul>
+            <InputModal title={"Add user"} inputFields={[{type:"text",value:'',label:"name"},{type:"text",value:'',label:"email"}]} submitHandler={(id,values)=>{console.log(`id: ${id}, values: ${JSON.stringify(values)}`)} } id={1}/>
         </>
     )
 }
