@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import InputModal from "./InputModal";
 import { inputState } from "./InputModal";
+import Navbar from "./NavBar";
 
 
 interface User {
@@ -111,9 +112,13 @@ export default function Users() {
     setIsAddModalopen(false);
   };
 
-  if (isPending) return <h1>Loading...</h1>;
+  if (isPending) return (
+  <>
+  <Navbar/>
+  <h1>Loading...</h1>
+  </>);
 
-  if (isError) return <h2>{error.message}</h2>;
+  if (isError) return <><Navbar/><h2>{error.message}</h2></>;
   
   const userListItems = users?.map((user) => {
     return (
@@ -142,6 +147,7 @@ export default function Users() {
 
   return (
     <>
+    <Navbar/>
       {isAddModalopen ? (
         <InputModal
           title={"Add user"}

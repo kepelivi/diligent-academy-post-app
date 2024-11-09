@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
+import Navbar from "./NavBar";
 
 export default function Home() {
     return (
         <>
-            <ul className="navbar">
-                <li><Link to={'/posts'}>Posts</Link></li>
-                <li><Link to={'/users'}>Users</Link></li>
-            </ul>
+            <Navbar/>
             <h1>Home page</h1>
             <p>Welcome to our page! Check out our posts and users:</p>
             
