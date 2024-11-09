@@ -161,7 +161,7 @@ export default function Users() {
         />
       ) : null}
       <button onClick={()=>setIsAddModalopen(true)}>Add new user</button>
-      <ul>
+      <ul className="user-list">
         {userListItems}
       </ul>
     </>

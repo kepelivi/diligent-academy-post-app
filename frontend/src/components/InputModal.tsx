@@ -66,10 +66,12 @@ const InputModal: React.FC<InputModalProps> = ({
     <dialog className="userModal" open>
       <h2>{title}</h2>
       {inputElements}
-      <button onClick={() => submitHandler(id, inputValues)}>
+      <div className="space-between">
+        <button onClick={() => submitHandler(id, inputValues)}>
         {title.toLowerCase()}
-      </button>
-      <button onClick={cancelHandler}>cancel</button>
+        </button>
+        <button onClick={cancelHandler}>cancel</button>
+      </div>
     </dialog>
     </div>
   );
