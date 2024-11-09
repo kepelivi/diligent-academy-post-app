@@ -12,3 +12,25 @@
     width: 100vw;
     height: 100vh;
 }
+.navbar{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    background-color: blue;
+    color: yellow;
+    padding: 1rem;
+}
+.navbar li {
+    list-style-type: none;
+    font-size: x-large;
+}
+.navbar a {
+    text-decoration: none;
+}
+.navbar a:visited {
+    color: yellow;
+}
+.navbar a:hover {
+    color: white;
+}
