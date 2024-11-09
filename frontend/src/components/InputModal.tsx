@@ -9,11 +9,12 @@ interface InputField {
 interface InputModalProps {
   inputFields: InputField[];
   submitHandler: (id: number, values: inputState) => void;
+  cancelHandler: ()=>void;
   id: number;
   title: string;
 }
 
-interface inputState {
+export interface inputState {
   [key: string]: string | number;
 }
 
@@ -22,6 +23,7 @@ const InputModal: React.FC<InputModalProps> = ({
   submitHandler,
   id,
   title,
+  cancelHandler,
 }) => {
   const [inputValues, setInputValues] = useState<inputState>({});
 
@@ -66,6 +68,7 @@ const InputModal: React.FC<InputModalProps> = ({
       <button onClick={() => submitHandler(id, inputValues)}>
         {title.toLowerCase()}
       </button>
+      <button onClick={cancelHandler}>cancel</button>
     </dialog>
   );
 };
