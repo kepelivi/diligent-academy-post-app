@@ -54,6 +54,7 @@ app.post('/users', (req: Request, res: Response) => {
   };
   users.push(newUser);
   res.json(newUser);
+  console.log(users);
 });
 
 app.post('/posts', (req: Request, res: Response) => {

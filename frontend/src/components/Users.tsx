@@ -12,12 +12,37 @@ export default function Users() {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
 
+
     const { data: users, isError, isPending, error, isSuccess, status } = useQuery<User[]>({
         queryFn: async () => fetch('http://localhost:3000/users').then(res => res.json()),
         queryKey: ['users']
     })
 
-    const createUserDeleteMutation = useMutation({
+    function getHeigestPossibleID() : number{
+        if(users !== undefined){
+            return Math.max(...users.map(user=>user.id))
+        }
+        return 0;
+    }
+
+    const updateUserMutation = useMutation({
+        mutationFn: async (user:User)=>{
+            fetch(`http://localhost:3000/users/${user.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+            })
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['users']
+            });
+
+        }
+        
+    });
+
+    const deleteUserMutation = useMutation({
         mutationFn: async (id: number) => {
             fetch(`http://localhost:3000/users/${id}`, {
                 method: 'DELETE',
@@ -32,11 +57,11 @@ export default function Users() {
     })
 
     const createUserMutation = useMutation({
-        mutationFn: async (newUser: User) => {
+        mutationFn: async (newUser: Omit<User,'id'>) => {
             fetch('http://localhost:3000/users', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newUser)
+                body: JSON.stringify({name:newUser.name,email:newUser.email})
             }).then(res => res.json());
         },
         onMutate: () => {
@@ -54,14 +79,20 @@ export default function Users() {
 
     const handleCreateUser = () => {
         createUserMutation.mutate({
-            id: 30,
+            name: name,
+            email: email,
+        })
+    }
+    const handleUpdateUser =(id:number)=>{
+        updateUserMutation.mutate({
+            id: id,
             name: name,
             email: email
         })
     }
 
     const handleDeleteUser = (id: number) => {
-        createUserDeleteMutation.mutate(id);
+        deleteUserMutation.mutate(id);
     }
 
     if (isPending) return <h1>Loading...</h1>
@@ -80,7 +111,9 @@ export default function Users() {
                     <li key={user.id}>
                         <h2>{user.name}</h2>
                         <p>{user.email}</p>
+                        <p>User id: {user.id}</p>
                         <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                        <button onClick={()=>handleUpdateUser(user.id)}>Update</button>
                     </li>
                 ))}
             </ul>
