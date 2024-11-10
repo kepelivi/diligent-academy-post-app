@@ -80,6 +80,7 @@ export default function Users() {
                     <li key={user.id}>
                         <h2>{user.name}</h2>
                         <p>{user.email}</p>
+                        <p>id: {user.id}</p>
                         <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
                     </li>
                 ))}
