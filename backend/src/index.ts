@@ -31,11 +31,10 @@ const posts: Post[] = [
 
 function getHeighestPossibleID(database:Post[]|User[]): number {
   if (database !== undefined) {
-    const newId = Math.max(...database.map((data) => data.id))+1;
-      console.log(newId);
+     const newId = Math.max(...database.map((data) => data.id))+1;
       return newId;
   }
-  return 0;
+  return 1;
 }
 
 app.get('/users', (req: Request, res: Response) => {
