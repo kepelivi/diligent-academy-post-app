@@ -29,6 +29,14 @@ const posts: Post[] = [
   { id: 2, title: 'Post 2', content: 'Dolor sit amet...' },
 ];
 
+function getHeighestPossibleID(database:Post[]|User[]): number {
+  if (database !== undefined) {
+     const newId = Math.max(...database.map((data) => data.id))+1;
+      return newId;
+  }
+  return 1;
+}
+
 app.get('/users', (req: Request, res: Response) => {
   res.json(users);
 });
@@ -49,7 +57,7 @@ app.get('/users/:id', (req: Request, res: Response) => {
 
 app.post('/users', (req: Request, res: Response) => {
   const newUser: User = {
-    id: users.length + 1,
+    id: getHeighestPossibleID(users),
     ...req.body,
   };
   users.push(newUser);
@@ -59,7 +67,7 @@ app.post('/users', (req: Request, res: Response) => {
 
 app.post('/posts', (req: Request, res: Response) => {
   const newPost: Post = {
-    id: posts.length + 1,
+    id: getHeighestPossibleID(posts),
     ...req.body,
   };
   posts.push(newPost);
