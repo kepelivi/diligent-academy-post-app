@@ -24,10 +24,10 @@ export default function Users() {
   } = useQuery<User[]>({
     queryFn: async () =>
       fetch("http://localhost:3000/users").then((res) => res.json()),
-    queryKey: ["users"],
+    queryKey: ["users"],    
   });
 
-  function getHeighestPossibleID(): number {
+    function getHeighestPossibleID(): number {
     if (users !== undefined) {
       const newId = Math.max(...users.map((user) => user.id))+1;
         console.log(newId);
@@ -38,7 +38,7 @@ export default function Users() {
 
   const updateUserMutation = useMutation({
     mutationFn: async (user: User) => {
-      fetch(`http://localhost:3000/users/${user.id}`, {
+      await fetch(`http://localhost:3000/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
@@ -53,7 +53,7 @@ export default function Users() {
 
   const deleteUserMutation = useMutation({
     mutationFn: async (id: number) => {
-      fetch(`http://localhost:3000/users/${id}`, {
+      await fetch(`http://localhost:3000/users/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -61,7 +61,7 @@ export default function Users() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["users"],
-      });
+      });    
     },
   });
 
@@ -78,7 +78,7 @@ export default function Users() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["users"],
-      });
+      })
     },
   });
 
@@ -120,7 +120,7 @@ export default function Users() {
 
   if (isError) return <><Navbar/><h2>{error.message}</h2></>;
   
-  const userListItems = users?.map((user) => {
+  const userListItem = users?.map((user) => {
     return (
     <li key={user.id}>
       <h2>{user.name}</h2>
@@ -143,7 +143,7 @@ export default function Users() {
       />
         :null}
     </li>
-  )});
+  )})
 
   return (
     <>
@@ -162,7 +162,7 @@ export default function Users() {
       ) : null}
       <button onClick={()=>setIsAddModalopen(true)}>Add new user</button>
       <ul className="user-list">
-        {userListItems}
+        {userListItem}
       </ul>
     </>
   );
