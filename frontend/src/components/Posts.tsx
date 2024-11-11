@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import PostItem from "./PostItem";
+import Navbar from "./NavBar";
 
-interface Post {
+export interface Post {
     id: number;
     title: string;
     content: string;
@@ -12,24 +14,28 @@ export default function Posts() {
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
 
-    const { data: posts, isError, isPending, error, isSuccess, status } = useQuery<Post[]>({
+    const { data: posts, isError, isPending, error } = useQuery<Post[]>({
         queryFn: async () => fetch('http://localhost:3000/posts').then(res => res.json()),
         queryKey: ['posts']
     })
 
+    function getHeighestPossibleID(): number {
+        if (posts !== undefined) {
+            if (posts.length === 0) return 1;
+            const newId = Math.max(...posts.map((post) => post.id)) + 1;
+            console.log(newId);
+            return newId;
+        }
+        return 0;
+    }
+
     const createPostMutation = useMutation({
         mutationFn: async (newPost: Post) => {
-            fetch('http://localhost:3000/posts', {
+            return fetch('http://localhost:3000/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newPost)
             }).then(res => res.json());
-        },
-        onMutate: () => {
-
-        },
-        onError: () => {
-
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
@@ -40,10 +46,11 @@ export default function Posts() {
 
     const handleCreatePost = () => {
         createPostMutation.mutate({
-            id: 30,
+            id: getHeighestPossibleID(),
             title: title,
             content: content
         })
+        console.log(posts);
     }
 
     if (isPending) return <h1>Loading...</h1>
@@ -54,15 +61,13 @@ export default function Posts() {
 
     return (
         <>
+            <Navbar />
             <input type="text" placeholder="Title" name="title" onChange={(e) => setTitle(e.target.value)} />
             <input type="text" placeholder="Post content" name="content" onChange={(e) => setContent(e.target.value)} />
             <button onClick={handleCreatePost}>Create post</button>
-            <ul>
+            <ul className="post-list">
                 {posts?.map(post => (
-                    <li key={post.id}>
-                        <h2>{post.title}</h2>
-                        <p>{post.content}</p>
-                    </li>
+                    <PostItem key={post.id} post={post} />
                 ))}
             </ul>
         </>
