@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-interface Post {
+export interface Post {
     id: number;
     title: string;
     content: string;
+    author: string;
 }
 
 export default function Posts() {
@@ -42,7 +43,8 @@ export default function Posts() {
         createPostMutation.mutate({
             id: 30,
             title: title,
-            content: content
+            content: content,
+            author: "Universal User"
         })
     }
 
