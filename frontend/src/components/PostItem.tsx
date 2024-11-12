@@ -58,19 +58,19 @@ const PostItem: React.FC<PostProps> = ({ post }: PostProps) => {
     return (
         <>
             {isUpdating ? (
-                <div>
+                <div className='postitem-input-container'>
                     <input type='text' placeholder='Title' name='title' value={title} onChange={(e) => setTitle(e.target.value)} /> <br></br>
-                    <input type='text' placeholder='Post content' name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+                    <textarea placeholder='Post content' name='content' value={content} onChange={(e) => setContent(e.target.value)} /> <br></br>
                     <button onClick={() => handleUpdatePost(post.id)}>Save</button>
                 </div>
             ) : (
-                <li>
+                <li className='postitem'>
                     <h2>{post.title}</h2>
                     <p>{post.content}</p>
-                    <button onClick={() => handleDeleteUser(post.id)}>Delete</button>
                     <button onClick={() => setIsUpdating(true)}>
                         Update
                     </button>
+                    <button onClick={() => handleDeleteUser(post.id)}>Delete</button>
                 </li>
             )}
         </>
