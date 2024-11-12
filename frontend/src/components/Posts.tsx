@@ -62,9 +62,12 @@ export default function Posts() {
     return (
         <>
             <Navbar />
-            <input type="text" placeholder="Title" name="title" onChange={(e) => setTitle(e.target.value)} />
-            <input type="text" placeholder="Post content" name="content" onChange={(e) => setContent(e.target.value)} />
-            <button onClick={handleCreatePost}>Create post</button>
+            <div className="input-container">
+                <h3>Add a new post</h3>
+                <input type="text" placeholder="Title" name="title" onChange={(e) => setTitle(e.target.value)} /> <br></br>
+                <textarea placeholder="Post content" name="content" onChange={(e) => setContent(e.target.value)} /> <br></br>
+                <button onClick={handleCreatePost}>Create post</button>
+            </div>
             <ul className="post-list">
                 {posts?.map(post => (
                     <PostItem key={post.id} post={post} />
