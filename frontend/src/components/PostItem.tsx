@@ -10,6 +10,7 @@ const PostItem: React.FC<PostProps> = ({ post }: PostProps) => {
     const queryClient = useQueryClient();
     const [title, setTitle] = useState<string>(post.title);
     const [content, setContent] = useState<string>(post.content);
+    const [author, setAuthor] = useState<string>(post.author);
     const [isUpdating, setIsUpdating] = useState(false);
 
     const deletePostMutation = useMutation({
@@ -51,7 +52,8 @@ const PostItem: React.FC<PostProps> = ({ post }: PostProps) => {
         updatePostMutation.mutate({
             id: id,
             title: title,
-            content: content
+            content: content,
+            author: author
         })
     }
 
@@ -61,12 +63,14 @@ const PostItem: React.FC<PostProps> = ({ post }: PostProps) => {
                 <div className='postitem-input-container'>
                     <input type='text' placeholder='Title' name='title' value={title} onChange={(e) => setTitle(e.target.value)} /> <br></br>
                     <textarea placeholder='Post content' name='content' value={content} onChange={(e) => setContent(e.target.value)} /> <br></br>
+                    <input type='text' placeholder='Author' name='author' value={author} onChange={(e) => setAuthor(e.target.value)} /> <br></br>
                     <button onClick={() => handleUpdatePost(post.id)}>Save</button>
                 </div>
             ) : (
                 <li className='postitem'>
                     <h2>{post.title}</h2>
                     <p>{post.content}</p>
+                    <h4>{post.author}</h4>
                     <button onClick={() => setIsUpdating(true)}>
                         Update
                     </button>

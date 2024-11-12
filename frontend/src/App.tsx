@@ -3,7 +3,6 @@ import Home from "./components/Home";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Users from "./components/Users";
 import './styles/style.css';
-import SearcForPost from "./components/SearchForPosts";
 
 function App() {
 
@@ -14,7 +13,6 @@ function App() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/users" element={<Users />} />
       </Routes>
-      <SearcForPost/>
     </BrowserRouter>
   )
 }
