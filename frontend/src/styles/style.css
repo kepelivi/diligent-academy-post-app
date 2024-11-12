@@ -63,3 +63,84 @@
     padding: 1rem;
     margin-bottom: 1rem;
 }
+
+.input-container input {
+    margin-bottom: .5rem;
+    width: 25vh;
+    height: 3.5vh;
+    border-radius: .3rem;
+    border-color: blue;
+}
+
+.input-container textarea {
+    margin-bottom: .5rem;
+    width: 50vh;
+    height: 15vh;
+    border-radius: .3rem;
+    border-color: blue;
+}
+
+.input-container button {
+    background-color: white;
+    border-width: 2px;
+    border-color: rgb(0, 0, 137);
+    border-radius: 3px;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.postitem {
+    list-style: none;
+    background-color: black;
+    color: aliceblue;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.postitem button {
+    background-color: rgba(0, 0, 255, 0.66);
+    border-width: 2px;
+    border-color: rgb(0, 0, 137);
+    border-radius: 3px;
+    color: white;
+    width: 20vh;
+    margin: .3rem;
+}
+
+.postitem-input-container {
+    background-color: black;
+    color: aliceblue;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.postitem-input-container input {
+    margin-bottom: .5rem;
+    width: 25vh;
+    height: 3.5vh;
+    border-radius: .3rem;
+    border-color: blue;
+}
+
+.postitem-input-container textarea {
+    margin-bottom: .5rem;
+    width: 50vh;
+    height: 15vh;
+    border-radius: .3rem;
+    border-color: blue;
+}
+
+.postitem-input-container button {
+    background-color: white;
+    border-width: 2px;
+    border-color: rgb(0, 0, 137);
+    border-radius: 3px;
+}
