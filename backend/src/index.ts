@@ -17,6 +17,7 @@ interface Post {
   id: number;
   title: string;
   content: string;
+  author: string;
 }
 
 const users: User[] = [
@@ -25,8 +26,9 @@ const users: User[] = [
 ];
 
 const posts: Post[] = [
-  { id: 1, title: 'Post 1', content: 'Lorem ipsum...' },
-  { id: 2, title: 'Post 2', content: 'Dolor sit amet...' },
+  { id: 1, title: "Post 1", content: "Lorem ipsum...", author: "Anna" },
+  { id: 2, title: "Post 2", content: "Dolor sit amet...", author: "Béla" },
+  { id: 3, title: "Post 3", content: "Dolor sit amet...", author: "Cecil" },
 ];
 
 function getHeighestPossibleID(database:Post[]|User[]): number {
@@ -42,6 +44,17 @@ app.get('/users', (req: Request, res: Response) => {
 });
 
 app.get('/posts', (req: Request, res: Response) => {
+  console.log("req.query: ",Object.keys(req.query),"boolean:",Boolean(req.query.title||req.query.author||req.query.content),)
+  if(req.query.title){
+    const searchedPosts = posts.filter(post=>{return new RegExp(req.query.title  as string, "i").test(post['title'])});
+    res.json(searchedPosts);
+  } else if(req.query.author){
+    const searchedPosts = posts.filter(post=>{return new RegExp(req.query.author  as string, "i").test(post['author'])});
+    res.json(searchedPosts);
+  } else if(req.query.content){
+    const searchedPosts = posts.filter(post=>{return new RegExp(req.query.content  as string, "i").test(post['content'])});
+    res.json(searchedPosts);
+  }
   res.json(posts);
 });
 

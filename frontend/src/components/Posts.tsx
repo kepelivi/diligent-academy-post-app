@@ -7,6 +7,7 @@ export interface Post {
     id: number;
     title: string;
     content: string;
+    author: string;
 }
 
 export default function Posts() {
@@ -48,7 +49,8 @@ export default function Posts() {
         createPostMutation.mutate({
             id: getHeighestPossibleID(),
             title: title,
-            content: content
+            content: content,
+            author: "Universal User"
         })
         console.log(posts);
     }
