@@ -5,9 +5,7 @@ export default function Home() {
         <>
             <Navbar/>
             <h1>Home page</h1>
-            <p>Welcome to our page! Check out our posts and users:</p>
-            
-           
+            <p>Welcome to our page! Check out our posts and users.</p>
         </>
     )
 }

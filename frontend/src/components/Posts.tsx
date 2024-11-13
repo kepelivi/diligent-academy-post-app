@@ -17,10 +17,11 @@ export default function Posts() {
     const [content, setContent] = useState<string>('');
     const [author, setAuthor] = useState<string>('');
     const [findBy, setFindBy] = useState<"author" | "content" | "title">("author");
-    const [textToFind,setTextToFind] = useState<string>('');
+    const [textToFind, setTextToFind] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const { data: posts, isError, isPending, error, refetch } = useQuery<Post[]>({
-        queryFn: async () => fetch(textToFind != '' ? `http://localhost:3000/posts?${findBy}=${textToFind}` :'http://localhost:3000/posts').then(res => res.json()),
+        queryFn: async () => fetch(textToFind != '' ? `http://localhost:3000/posts?${findBy}=${textToFind}` : 'http://localhost:3000/posts').then(res => res.json()),
         queryKey: ['posts']
     })
 
@@ -28,7 +29,6 @@ export default function Posts() {
         if (posts !== undefined) {
             if (posts.length === 0) return 1;
             const newId = Math.max(...posts.map((post) => post.id)) + 1;
-            console.log(newId);
             return newId;
         }
         return 0;
@@ -40,7 +40,7 @@ export default function Posts() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newPost)
-            }).then(res => res.json());
+            }).then(res => res.json())
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
@@ -50,13 +50,17 @@ export default function Posts() {
     })
 
     const handleCreatePost = () => {
-        createPostMutation.mutate({
-            id: getHeighestPossibleID(),
-            title: title,
-            content: content,
-            author: author,
-        })
-        console.log(posts);
+        if (title === '' || content === '' || author === '') {
+            setErrorMessage('Please fill out all fields of the post to add it.');
+        } else {
+            createPostMutation.mutate({
+                id: getHeighestPossibleID(),
+                title: title,
+                content: content,
+                author: author,
+            });
+            setErrorMessage('');
+        }
     }
 
     if (isPending) return <h1>Loading...</h1>
@@ -68,13 +72,14 @@ export default function Posts() {
     return (
         <>
             <Navbar />
-            <SearchForPost posts={posts} setFindBy={setFindBy} textToFind={textToFind} setTextToFind={setTextToFind} refetch={refetch}/>
+            <SearchForPost posts={posts} setFindBy={setFindBy} textToFind={textToFind} setTextToFind={setTextToFind} refetch={refetch} />
             <div className="input-container">
                 <h3>Add a new post</h3>
                 <input type="text" placeholder="Title" name="title" onChange={(e) => setTitle(e.target.value)} /> <br></br>
                 <textarea placeholder="Post content" name="content" onChange={(e) => setContent(e.target.value)} /> <br></br>
                 <input type="text" placeholder="Author" name="author" onChange={(e) => setAuthor(e.target.value)} /> <br></br>
                 <button onClick={handleCreatePost}>Create post</button>
+                {errorMessage !== '' && (<h3>{errorMessage}</h3>)}
             </div>
             <ul className="post-list">
                 {posts?.map(post => (
