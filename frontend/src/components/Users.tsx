@@ -30,7 +30,6 @@ export default function Users() {
     function getHeighestPossibleID(): number {
     if (users !== undefined) {
       const newId = Math.max(...users.map((user) => user.id))+1;
-        console.log(newId);
         return newId;
     }
     return 0;
