@@ -50,15 +50,16 @@ export default function Posts() {
     })
 
     const handleCreatePost = () => {
-        if (title === null || content === null || author === null) {
+        if (title === '' || content === '' || author === '') {
+            setErrorMessage('Please fill out all fields of the post to add it.');
+        } else {
             createPostMutation.mutate({
                 id: getHeighestPossibleID(),
                 title: title,
                 content: content,
                 author: author,
-            })
-        } else {
-            setErrorMessage('Please fill out all fields of the post to add it.')
+            });
+            setErrorMessage('');
         }
     }
 
